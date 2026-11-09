@@ -3,6 +3,7 @@ import csv
 import io
 import json
 from pathlib import Path
+from types import SimpleNamespace
 from unittest.mock import Mock
 import subprocess
 
@@ -312,6 +313,7 @@ def test_packet_limit_and_udp_fallback_never_invent_header_bytes():
 
 
 def test_success_summary_does_not_print_addresses_or_private_records(monkeypatch, capsys):
+    monkeypatch.setattr(cli, "os", SimpleNamespace(name="nt", environ=cli.os.environ))
     result = {"collection_id": COLLECTION, "started_at": END, "ended_at": END,
         "flow_record_count": 1, "counters": {"packets_accepted": 1},
         "records": [{"src_ip": LOCAL, "dst_ip": PEER}], "limitations": ["bounded window"]}
@@ -327,6 +329,7 @@ def test_success_summary_does_not_print_addresses_or_private_records(monkeypatch
 
 
 def test_ingestion_follows_capture_and_uses_fifty_finalized_records_per_batch(monkeypatch):
+    monkeypatch.setattr(cli, "os", SimpleNamespace(name="nt", environ=cli.os.environ))
     records = [{"example": index} for index in range(51)]
     result = {"collection_id": COLLECTION, "started_at": END, "ended_at": END,
         "flow_record_count": 51, "counters": {"packets_accepted": 51}, "records": records, "limitations": []}
