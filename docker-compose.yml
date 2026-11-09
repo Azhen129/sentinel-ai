@@ -1,0 +1,32 @@
+services:
+  backend:
+    build:
+      context: .
+      dockerfile: backend/Dockerfile
+    environment:
+      SENTINEL_DB_PATH: /app/data/sentinel.db
+      SENTINEL_LAB_MODE: "false"
+      SENTINEL_PCAP_ENABLED: "false"
+      SENTINEL_MONITOR_MODE: "false"
+      SENTINEL_PUBLIC_DEMO: "false"
+    volumes:
+      - sentinel-data:/app/data
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8000/api/health', timeout=5)"]
+      interval: 15s
+      timeout: 8s
+      retries: 5
+      start_period: 30s
+  frontend:
+    build:
+      context: frontend
+      dockerfile: Dockerfile
+    ports:
+      - "127.0.0.1:8080:80"
+    depends_on:
+      backend:
+        condition: service_healthy
+    restart: unless-stopped
+volumes:
+  sentinel-data:

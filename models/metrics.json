@@ -1,0 +1,128 @@
+{
+  "name": "Isolation Forest",
+  "version": "1.0.0",
+  "model_version": "1.0.0",
+  "status": "ready",
+  "model_loaded": true,
+  "dataset": "UCI KDD Cup 1999 \u2014 10% subset",
+  "dataset_type": "public historical benchmark",
+  "source_url": "https://ndownloader.figshare.com/files/5976042",
+  "canonical_source_url": "https://kdd.ics.uci.edu/databases/kddcup99/kddcup.data_10_percent.gz",
+  "download_note": "Original UCI archive returned HTTP 403 in this environment; used the checksum-verified mirror distributed by scikit-learn.",
+  "citation_url": "https://doi.org/10.24432/C51C7N",
+  "license": "CC BY 4.0 (UCI dataset catalog)",
+  "sha256": "8045aca0d84e70e622d1148d7df782496f6333bf6eb979a1b0837c42a9fd9561",
+  "trained_at": "2026-10-29T12:18:52.241487+00:00",
+  "random_seed": 42,
+  "sklearn_version": "1.6.1",
+  "algorithm": "IsolationForest(n_estimators=160, max_samples=256)",
+  "features": [
+    "log_duration",
+    "log_bytes_sent",
+    "log_bytes_received",
+    "protocol",
+    "service",
+    "status"
+  ],
+  "feature_count": 6,
+  "training_mode": "benign-only unsupervised",
+  "training_samples": 53953,
+  "threshold": 0.5929614023891565,
+  "threshold_selection": "98th percentile of benign validation anomaly scores; fixed before test evaluation",
+  "split_method": "60/20/20 of distinct feature groups, seeded holdout by SHA-256 of all canonical inference features; row fractions vary; exact full-row deduplication before split",
+  "counts": {
+    "original_rows": 494021,
+    "deduplicated_rows": 145586,
+    "exact_duplicates_removed": 348435,
+    "benign_rows": 87832,
+    "attack_rows": 57754,
+    "feature_groups": 57163,
+    "train_partition": 107653,
+    "train_benign_used": 53953,
+    "validation_partition": 18046,
+    "validation_benign_used": 16790,
+    "test": 19887,
+    "test_benign": 17089,
+    "test_attacks": 2798
+  },
+  "split": {
+    "train": 107653,
+    "validation": 18046,
+    "test": 19887,
+    "feature_group_overlap": 0
+  },
+  "metrics": {
+    "precision": 0.5104261106074343,
+    "recall": 0.20121515368120085,
+    "f1": 0.2886439374519354,
+    "false_positive_rate": 0.0315992743870326,
+    "accuracy": 0.8604616080856841,
+    "roc_auc": 0.8539831478065617,
+    "average_precision": 0.4720630848290439
+  },
+  "confusion_matrix": [
+    [
+      16549,
+      540
+    ],
+    [
+      2235,
+      563
+    ]
+  ],
+  "confusion_matrix_labels": [
+    "benign",
+    "attack"
+  ],
+  "confusion_matrix_orientation": "rows actual, columns predicted",
+  "confusion": {
+    "true_negative": 16549,
+    "false_positive": 540,
+    "false_negative": 2235,
+    "true_positive": 563
+  },
+  "false_positive_analysis": {
+    "count": 540,
+    "top_services": {
+      "private": 397,
+      "urp_i": 123,
+      "ecr_i": 7,
+      "domain_u": 7,
+      "telnet": 3,
+      "finger": 1,
+      "IRC": 1,
+      "other": 1
+    },
+    "interpretation": "Unusual benign services and traffic volumes can be flagged; triage is required."
+  },
+  "benign_ranges_log1p": {
+    "log_duration": {
+      "p01": 0.0,
+      "median": 0.0,
+      "p99": 8.615073422117884
+    },
+    "log_bytes_sent": {
+      "p01": 0.0,
+      "median": 5.472270673671475,
+      "p99": 9.008713664124222
+    },
+    "log_bytes_received": {
+      "p01": 0.0,
+      "median": 6.352629396319567,
+      "p99": 10.397665367329228
+    }
+  },
+  "limitations": [
+    "KDD Cup 1999 is an old benchmark built from simulated military-network traffic; it is not contemporary production evidence.",
+    "Grouping prevents identical observable feature vectors crossing splits, but there are no usable timestamps or hosts for temporal/host holdout.",
+    "Only duration, directional byte volumes, protocol, service and state are shared with Zeek. Payload and rolling-host features are excluded.",
+    "TLS/HTTPS is mapped to the legacy HTTP service; DNS is mapped to domain/domain_u. These approximations introduce distribution shift.",
+    "The threshold targets a 2% benign validation alert rate, not a guaranteed production false-positive rate.",
+    "Anomalies are unusual traffic, not proof of an attack. Indicator explanations are range/category heuristics, not causal feature attributions.",
+    "Synthetic replay measures the application workflow; these benchmark metrics do not describe the replay or a private network.",
+    "No claim is made about new attack families, encrypted payload inspection, or zero-day detection."
+  ],
+  "explanation_method": "Numeric benign percentile and unseen-category heuristics, plus aggregate Isolation Forest score",
+  "artifact_schema_version": 1,
+  "artifact_sha256": "856206a435150c9075366fd93617c2eadbe9973eb233c1cd3622f7d514bb6222"
+}

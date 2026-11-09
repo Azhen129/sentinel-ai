@@ -1,0 +1,5 @@
+#separator \x09
+#fields	ts	id.orig_h	id.orig_p	id.resp_h	id.resp_p	proto	service	duration	orig_bytes	resp_bytes	conn_state
+1767225600	192.0.2.10	51432	198.51.100.20	443	tcp	ssl	1.42	1024	18340	SF
+1767225603	192.0.2.12	53514	198.51.100.53	53	udp	dns	0.04	78	142	SF
+1767225606	192.0.2.77	61500	203.0.113.42	23	tcp	-	0.01	64	0	REJ

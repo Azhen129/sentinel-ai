@@ -1,0 +1,3 @@
+{"ts":1767225600.0,"uid":"CExample01","id.orig_h":"192.0.2.10","id.orig_p":51432,"id.resp_h":"198.51.100.20","id.resp_p":443,"proto":"tcp","service":"ssl","duration":1.42,"orig_bytes":1024,"resp_bytes":18340,"conn_state":"SF"}
+{"ts":1767225603.0,"uid":"CExample02","id.orig_h":"192.0.2.12","id.orig_p":53514,"id.resp_h":"198.51.100.53","id.resp_p":53,"proto":"udp","service":"dns","duration":0.04,"orig_bytes":78,"resp_bytes":142,"conn_state":"SF"}
+{"ts":1767225606.0,"uid":"CExample03","id.orig_h":"192.0.2.77","id.orig_p":61500,"id.resp_h":"203.0.113.42","id.resp_p":23,"proto":"tcp","service":"-","duration":0.01,"orig_bytes":64,"resp_bytes":0,"conn_state":"REJ"}
