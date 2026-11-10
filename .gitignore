@@ -108,3 +108,7 @@ temp/
 Thumbs.db
 .idea/
 .vscode/
+
+# Local Vercel authentication/settings and build-only synthetic snapshot
+.vercel/
+/deployment/generated/
