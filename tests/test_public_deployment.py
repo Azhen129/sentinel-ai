@@ -98,10 +98,11 @@ def test_public_builder_refuses_existing_input_database(snapshot):
         generate_snapshot(snapshot)
 
 
-def test_public_deployment_requires_matching_loaded_model(snapshot, tmp_path, monkeypatch):
+@pytest.mark.parametrize("model_ready", [False, True])
+def test_public_deployment_requires_matching_loaded_model(snapshot, tmp_path, monkeypatch, model_ready):
     class UnavailableModel:
-        ready = False
-        metadata = {}
+        ready = model_ready
+        metadata = {"artifact_sha256": "0" * 64}
     monkeypatch.setattr("deployment.public_snapshot.Detector", UnavailableModel)
     with pytest.raises(ValueError, match="matching model"):
         public_app_from_snapshot(snapshot, tmp_path)

@@ -4,6 +4,8 @@ Network telemetry analysis, explainable threat indicators, and incident investig
 
 **Sentinel AI is an educational and research-oriented security monitoring project, not a validated production intrusion prevention system.**
 
+**[Open the live demonstration](https://sentinel-ai-azhen.vercel.app)** — 360 synthetic connections, read-only investigation, and the existing five-view console. [Hosting and verification](docs/public-demo-hosting.md).
+
 **The default application is a synthetic demonstration.** It replays synthetic connection records without scanning hosts, capturing packets, contacting the displayed addresses, or accessing a private network. Optional workflows import authorized lab files or run explicitly opted-in disposable localhost experiments. **No live-network protection or production detection performance has been demonstrated.**
 
 A separate, off-by-default [Windows Ethernet metadata profile](docs/windows-monitoring.md) is implemented for explicitly authorized, bounded local collection. An initial process-context restriction was later resolved in normal Windows execution: 164 genuine packets produced 18 stored Live Ethernet flow records and two historical benchmark ML incidents, with the display verified by the owner. This does not establish continuous monitoring or proven protection. The existing demo does not enable or start collection.
@@ -101,7 +103,11 @@ docker compose -f docker-compose.public-demo.yml up --build -d
 docker compose -f docker-compose.public-demo.yml ps
 ```
 
-Its local preview is [127.0.0.1:8082](http://127.0.0.1:8082). These commands prepare a local preview, not a public deployment. Never mount a home-network database, notes, captures, secrets or private exports into this profile. Container execution and hosting readiness must be assessed from [the dated verification](docs/verification.md) and [deployment guide](docs/deployment.md); no published URL is claimed here.
+Its local preview is [127.0.0.1:8082](http://127.0.0.1:8082). These commands prepare a local preview. Never mount a home-network database, notes, captures, secrets or private exports into this profile. The local container checks and their limits remain recorded in [the dated verification](docs/verification.md).
+
+The [live public demo](https://sentinel-ai-azhen.vercel.app) runs the unchanged React console and FastAPI API on Vercel Hobby. A deployment-only entrypoint forces the read-only synthetic profile and disables monitoring, lab ingestion and PCAP processing. During each build, the existing detection pipeline and approved model generate a dedicated SQLite snapshot containing all 360 synthetic records. Each new instance copies that snapshot to isolated temporary storage; records and incident IDs stay consistent within that deployment. A new deployment generates a new synthetic snapshot, so timestamps and incident IDs can change. No private database, capture, monitoring key or router connection is used.
+
+The hosted snapshot has no durable user-editable storage. Free-plan quotas can pause availability, cold starts can add latency, and no production availability or protection guarantee is offered. [Actual HTTPS, restart and mobile checks](docs/public-demo-hosting.md#executed-verification) were completed on 10 November 2026. Local interactive Demo Mode and explicitly authorized local Ethernet monitoring retain their existing entrypoints and behavior.
 
 ## Architecture
 
@@ -279,7 +285,7 @@ To load this update, [restart the existing private monitor service](docs/windows
 
 ## Verification and deployment boundaries
 
-The [dated verification report](docs/verification.md) separates the original 29 October checks, the completed 1 November detection-intelligence baseline, and the 7 November release work. The final Windows run passed **328 Python tests**, **18 frontend tests**, and the standard production build. Genuine localhost experiments and actual desktop/mobile browser checks are documented in [testing](docs/testing.md). See [the v1 release report](docs/release-v1.md) and [known issues](docs/known-issues.md) for scope and remaining checks. The [GitHub Actions workflow](.github/workflows/check.yml) is included; a future CI run should establish its result rather than an unverified status badge.
+The [dated verification report](docs/verification.md) separates the original 29 October checks, the completed 1 November detection-intelligence baseline, and the 7 November release work. The final Windows run passed **328 Python tests**, **18 frontend tests**, and the standard production build. Genuine localhost experiments and actual desktop/mobile browser checks are documented in [testing](docs/testing.md). See [the v1 release report](docs/release-v1.md) and [known issues](docs/known-issues.md) for scope and remaining checks. All three jobs in the [9 November publication CI run](https://github.com/Azhen129/sentinel-ai/actions/runs/42685958452) passed. The [current workflow](.github/workflows/check.yml) additionally covers the public snapshot safeguards and Python 3.12 used by the hosted demo; inspect [GitHub Actions](https://github.com/Azhen129/sentinel-ai/actions) for the current commit's results.
 
 Earlier test totals and restrictions remain dated history in that report. The completed 1 November baseline had 165 Python and eight frontend tests, a production build, and an owner-reviewed activated detection-policy UI. The 7 November 2026 release checks are reported separately rather than treating an older hardware restriction as a current blocker. Public screenshots exclude private home-network telemetry.
 
@@ -307,9 +313,9 @@ npm run build
 
 The 7 November 2026 v1 polish preserves the five views and investigation workflow. Unknown API state uses neutral provenance labels; filtered lists wait for matching results; incident load failures have Retry; request cancellation retains a 12-second deadline; and mobile navigation contains keyboard focus and closes with Escape. Source/unit checks and browser checks are reported separately in [verification](docs/verification.md).
 
-This is a single-worker application with shared state. Private telemetry reads and local incident edits have no multi-user login; ingestion keys protect the keyed import paths. Private monitor/lab APIs require loopback clients and literal loopback Host headers, with trusted browser origins for writes. CORS is not authentication. Keep private services local. Only the isolated synthetic read-only profile is prepared for possible public hosting. See [hosting preparation](docs/deployment.md).
+The local interactive application uses one worker with shared state. Private telemetry reads and local incident edits have no multi-user login; ingestion keys protect the keyed import paths. Private monitor/lab APIs require loopback clients and literal loopback Host headers, with trusted browser origins for writes. CORS is not authentication. Keep private services local. Public hosting uses only the isolated synthetic read-only snapshot, with separate copies per instance. See [hosting and storage boundaries](docs/public-demo-hosting.md).
 
-There is no published repository or public demo URL recorded for this project. The [portfolio content](docs/portfolio-showcase.md) is a draft for a separately approved update.
+Source is published at [Azhen129/sentinel-ai](https://github.com/Azhen129/sentinel-ai), and the [synthetic demonstration](https://sentinel-ai-azhen.vercel.app) is publicly accessible. The [portfolio content](docs/portfolio-showcase.md) remains a draft for a separately approved update.
 
 ## Screenshots
 
